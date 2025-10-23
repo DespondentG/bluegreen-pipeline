@@ -52,14 +52,14 @@ pipeline {
       }
     }
 
-    stage('Switch Service to New Color') {
-      steps {
-        sh '''
-          kubectl --kubeconfig=${KUBECONFIG} patch svc ${SERVICE_NAME} --type=merge \
-          -p "{\"spec\":{\"selector\":{\"app\":\"myapp\",\"color\":\"${NEXT_COLOR}\"}}}"
-        '''
-      }
+  stage('Switch Service to New Color') {
+    steps {
+      sh """
+        kubectl --kubeconfig=${KUBECONFIG} patch svc ${SERVICE_NAME} --type=merge \
+        -p '{"spec":{"selector":{"app":"myapp","color":"${NEXT_COLOR}"}}}'
+      """
     }
+  }
 
     stage('Delete Old Deployment') {
       steps {
